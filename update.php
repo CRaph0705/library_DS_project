@@ -5,34 +5,6 @@
 session_start();
 
 
-// Est-ce que l'id existe et n'est pas vide dans l'url
-if(!empty($_GET['id'])){
-    require_once('config.php');
-    // on nettoie l'id envoyé
-    $id = strip_tags($_GET['id']);
-    $sql = 'SELECT book.*, author.lastname, author.firstname, category.name FROM `book` INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id WHERE book.`id`= :id;';
-    // On prépare la requête 
-    $query = $db->prepare($sql);
-    // On accroche les parametres 
-    $query->bindValue(':id', $id, PDO::PARAM_INT);
-    //exec requete
-    $query->execute();
-    //Récup le resultat de la requete
-    $bookPage = $query->fetch();
-
-    if (!$bookPage) {
-        $_SESSION['erreur'] = "URL invalide";
-        header('Location: index.php');
-        exit;
-    }
-}else{
-    $_SESSION['erreur'] = "URL invalide";
-    header('Location: index.php');
-    exit;
-}
-
-
-
 if($_POST){
     if(!empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['release_year']) && !empty($_POST['id'])) {
         require_once('config.php');
@@ -63,6 +35,33 @@ if($_POST){
     }else{
         $_SESSION['erreur'] = "Merci de renseigner à minima le titre, nom et prénom de l'auteur et l'année de parution.";
     }
+}
+
+
+// Est-ce que l'id existe et n'est pas vide dans l'url
+if(!empty($_GET['id'])){
+    require_once('config.php');
+    // on nettoie l'id envoyé
+    $id = strip_tags($_GET['id']);
+    $sql = 'SELECT book.*, author.lastname, author.firstname, category.name FROM `book` INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id WHERE book.`id`= :id;';
+    // On prépare la requête 
+    $query = $db->prepare($sql);
+    // On accroche les parametres 
+    $query->bindValue(':id', $id, PDO::PARAM_INT);
+    //exec requete
+    $query->execute();
+    //Récup le resultat de la requete
+    $bookPage = $query->fetch();
+
+    if (!$bookPage) {
+        $_SESSION['erreur'] = "URL invalide";
+        header('Location: index.php');
+        exit;
+    }
+}else{
+    $_SESSION['erreur'] = "URL invalide";
+    header('Location: index.php');
+    exit;
 }
 ?>
 
@@ -112,7 +111,7 @@ if($_POST){
                         <label for="release_year">Année de parution</label>
                         <input type="int" name="release_year" id="release_year" class="form-control" value=<?= $bookPage['release_year'] ?>>
                     </div>
-                    <input type="hidden" value="">
+                    <input type="hidden" value="<?= $bookPage['id']?>">
                     <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button class="btn btn-success" style="margin-left:5%">Modifier</button></div>
                 </form>
             </section>
