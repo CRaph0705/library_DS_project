@@ -2,7 +2,6 @@
 //on démarre une session ici
 session_start();
 require_once('config.php');
-require_once('functionsSQL.php');
 
 ?>
 <!DOCTYPE html>
@@ -64,26 +63,23 @@ require_once('functionsSQL.php');
 				<h1>Liste des livres</h1>
 				<table>
 					<thead>
-						<th>ID</th>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Author ID</th>
-						<th>Category ID</th>
-						<th>Release Year</th>
+						<th>Titre</th>
+						<th>Auteur</th>
+						<th>Catégorie</th>
+						<th>Année de parution</th>
 					</thead>
 					<tbody>
 						<?php
 						foreach ($books as $book) {
 						?>
 							<tr>
-								<td><?= $book['id'] ?></td>
 								<td><?= $book['title'] ?></td>
-								<td><?= $book['description'] ?></td>
-								<td><?= $book['author_id'] ?></td>
-								<td><?= $book['category_id'] ?></td>
+								<td><?= $book['fullname']?></td>
+								<td><?= $book['category_name'] ?></td>
 								<td><?= $book['release_year'] ?></td>
 								<td><a href="read.php?id=<?= $book['id'] ?>" class="btn btn-success">Voir plus</a></td>
-								<td><a></a></td>
+								<td><a href="update.php?id=<?= $book['id'] ?>" class="btn btn-warning" style="margin:0 5% 0 5%">Modifier</a></td>
+								<td><a href="delete.php?id=<?= $book['id'] ?>" class="btn btn-danger" style="margin-left:10%">Supprimer</a></td>
 							</tr>
 						<?php
 						}

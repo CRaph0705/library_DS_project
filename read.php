@@ -8,7 +8,7 @@ if(!empty($_GET['id'])){
     require_once('config.php');
     // on nettoie l'id envoyé
     $id = strip_tags($_GET['id']);
-    $sql = 'SELECT book.*, author.lastname, author.firstname, category.name FROM `book` INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id WHERE book.`id`= :id;';
+    $sql = 'SELECT book.*, author.fullname, category.category_name FROM `book` INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id WHERE book.`id`= :id;';
     // On prépare la requête 
     $query = $db->prepare($sql);
     // On accroche les parametres 
@@ -46,9 +46,9 @@ if(!empty($_GET['id'])){
                 <h2>Détails du livre <?= $bookPage['title'] ?></h2>
                 <p>ID : <?= $bookPage['id'] ?></p>
                 <p>Titre : <?= $bookPage['title'] ?></p>
-                <p>Auteur : <?= $bookPage['firstname']. " " .$bookPage['lastname'] ?></p>
-                <p>Catégorie : <?=$bookPage['name']  ?></p>
-                <p>Description : <?= $bookPage['description'] ?></p>
+                <p>Auteur : <?= $bookPage['fullname'] ?></p>
+                <p>Catégorie : <?=$bookPage['category_name']  ?></p>
+                <p>Description : <?= $bookPage['book_description'] ?></p>
                 <p>Date de parution : <?= $bookPage['release_year'] ?></p>
                 <p style="margin-top:2%"><a href="index.php" class="btn btn-primary"> Retour </a><a href="update.php?id=<?= $bookPage['id']?>" class="btn btn-warning" style="margin : 0 5% 0 5%"> Modifier </a><a href="delete.php" class="btn btn-danger"> Supprimer </a></p>
             </section>
