@@ -7,16 +7,16 @@ if ($_POST) {
     if (!empty($_POST['title']) && !empty($_POST['selected_author']) && !empty($_POST['release_year'])) {
         //var_dump('posted');
         // on nettoie les input envoyés
-        $title = strip_tags($_POST['title']);
-        $selected_author = strip_tags($_POST['selected_author']);
-        $book_description = strip_tags($_POST['book_description']);
-        $selected_category = strip_tags($_POST['selected_category']);
-        $release_year = strip_tags($_POST['release_year']);
+        $title = strip_tags(htmlspecialchars($_POST['title']));
+        $selected_author = strip_tags(intval($_POST['selected_author']));
+        $book_description = strip_tags(htmlspecialchars($_POST['book_description']));
+        $selected_category = strip_tags(intval($_POST['selected_category']));
+        $release_year = strip_tags(intval($_POST['release_year']));
 
         //var_dump($title, $selected_author, $book_description , $selected_category, $release_year );
-        $selected_author = intval($selected_author);
-        $selected_category = intval($selected_category);
-        $release_year = intval($release_year);
+        // $selected_author = intval($selected_author);
+        // $selected_category = intval($selected_category);
+        // $release_year = intval($release_year);
         //var_dump($title, $selected_author, $book_description , $selected_category, $release_year );die;
 
 
@@ -85,7 +85,7 @@ if ($_POST) {
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="book_description">book_description</label>
+                        <label for="book_description">Description</label>
                         <input type="text" name="book_description" id="book_description" class="form-control">
                     </div>
                     <div class="form-group">
@@ -101,7 +101,7 @@ if ($_POST) {
                         <label for="release_year">Année de parution</label>
                         <input type="int" name="release_year" id="release_year" class="form-control">
                     </div>
-                    <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button class="btn btn-success" style="margin-left:5%">Ajouter</button></div>
+                    <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button type="submit" class="btn btn-success" style="margin-left:5%">Ajouter</button></div>
                 </form>
             </section>
         </div>

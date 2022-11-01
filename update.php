@@ -5,27 +5,27 @@
 session_start();
 
 
-if($_POST){
-    if(!empty($_POST['title']) && !empty($_POST['author']) && !empty($_POST['release_year']) && !empty($_POST['id'])) {
+if(isset($_POST['modify'])){        //var_dump($_POST); die;
+
+    if(!empty($_POST['title']) && !empty($_POST['selected_author']) && !empty($_POST['release_year']) && !empty($_POST['id'])) {
         require_once('config.php');
         require_once('close.php');
         // on nettoie les input envoyés
-        $id = strip_tags($_POST['id']);
-        $title = strip_tags($_POST['title']);
-        $author_fullname = strip_tags($_POST['author_fullname']);
-        $author_lastname = strip_tags($_POST['author_lastname']);
-        $description = strip_tags($_POST['description']);
-        $category = strip_tags($_POST['category']);
-        $release_year = strip_tags($_POST['release_year']);
+        $id = strip_tags(intval($_POST['id']));
+        $title = strip_tags(htmlspecialchars($_POST['title']));
+        $author_id = strip_tags(intval($_POST['selected_author']));
+        $book_description = strip_tags(htmlspecialchars($_POST['book_description']));
+        $category_id = strip_tags(intval($_POST['selected_category']));
+        $release_year = strip_tags(intval($_POST['release_year']));
+
         
-        $sql = 'UPDATE `book` SET `title`=:title, `author_fullname`=:author_fullname, `author_lastname`=:author_lastname, `description`=:description, `category`=:category, `release_year`=:release_year) WHERE `id`=:id;';
+        $sql = "UPDATE `book` SET `title`=:title, `author_id`=:author_id, `book_description`=:book_description, `category_id`=:category_id, `release_year`=:release_year WHERE `id`=:id;";
         $query = $db->prepare($sql);
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         $query->bindValue(':title', $title, PDO::PARAM_STR);
-        $query->bindValue(':author_fullname', $author_fullname, PDO::PARAM_STR);
-        $query->bindValue(':author_lastname', $author_lastname, PDO::PARAM_STR);
-        $query->bindValue(':description', $description, PDO::PARAM_STR);
-        $query->bindValue(':category', $category, PDO::PARAM_STR);
+        $query->bindValue(':author_id', $author_id, PDO::PARAM_INT);
+        $query->bindValue(':book_description', $book_description, PDO::PARAM_STR);
+        $query->bindValue(':category_id', $category_id, PDO::PARAM_INT);
         $query->bindValue(':release_year', $release_year, PDO::PARAM_INT);
         $query->execute();
 
@@ -33,7 +33,7 @@ if($_POST){
         require_once('close.php');
         header('Location: index.php');
     }else{
-        $_SESSION['erreur'] = "Merci de renseigner à minima le titre, nom et prénom de l'auteur et l'année de parution.";
+        $_SESSION['erreur'] = "Merci de renseigner à minima le titre, l'auteur et l'année de parution.";
     }
 }
 
@@ -86,30 +86,52 @@ if(!empty($_GET['id'])){
         ?>
         <div class="row">
             <section class="col-12">
-                <h2>Ajouter un livre </h2>
+                <h2>Modifier un livre </h2>
                 <form method="post">
                     <div class="form-group">
                         <label for="title">Titre</label>
-                        <input type="text" name="title" id="title" class="form-control" value=<?= $bookPage['title'] ?>>
+                        <input type="text" name="title" id="title" class="form-control" value="<?= $bookPage['title'] ?>">
                     </div>
                     <div class="form-group">
-                        <label for="author_fullname">Auteur</label>
-                        <input type="text" name="author_fullname" id="author_fullname" class="form-control" value=<?= $bookPage['fullname'] ?>>
+                        <label for="author">Auteur</label>
+                        <select name="selected_author" id="selected_author" value="<?= $bookPage['author_id']?>">
+                            <?php 
+
+                            foreach ($authors as $author) {
+                                echo '<option value="' . $author['id'] . '"';
+                                if($author['id']==$bookPage['author_id']){
+                                    echo 'selected';
+                                }
+                                echo '>'. $author['fullname'] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" name="description" id="description" class="form-control" value=<?= $bookPage['book_description'] ?>>
+                        <label for="book_description">Description</label>
+                        <input type="text" name="book_description" id="book_description" class="form-control" value="<?= $bookPage['book_description'] ?>">
                     </div>
                     <div class="form-group">
                         <label for="category">Catégorie</label>
-                        <input type="text" name="category" id="category" class="form-control" value=<?= $bookPage['category_name'] ?>>
+                        <select name="selected_category" id="selected_category" value="<?= $bookPage['category_id']?>">
+                            <?php 
+
+                            foreach ($categories as $category) {
+                                echo '<option value="' . $category['id'] . '"';
+                                if($category['id']==$bookPage['category_id']){
+                                    echo 'selected';
+                                }
+                                echo '>'. $category['category_name'] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="release_year">Année de parution</label>
                         <input type="int" name="release_year" id="release_year" class="form-control" value=<?= $bookPage['release_year'] ?>>
                     </div>
                     <input type="hidden" value="<?= $bookPage['id']?>" name="id">
-                    <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button class="btn btn-success" style="margin-left:5%">Modifier</button></div>
+                    <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button name="modify" type="submit" class="btn btn-success" style="margin-left:5%">Modifier</button></div>
                 </form>
             </section>
         </div>
