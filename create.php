@@ -6,7 +6,6 @@ if ($_POST) {
     //var_dump('post');
     if (!empty($_POST['title']) && !empty($_POST['selected_author']) && !empty($_POST['release_year'])) {
         //var_dump('posted');
-        require_once('close.php');
         // on nettoie les input envoyés
         $title = strip_tags($_POST['title']);
         $selected_author = strip_tags($_POST['selected_author']);
@@ -31,7 +30,7 @@ if ($_POST) {
         $query->bindParam(":title", $title, PDO::PARAM_STR);
         $query->bindParam(":selected_author", $selected_author, PDO::PARAM_INT);
         $query->bindParam(":book_description", $book_description, PDO::PARAM_STR);
-        $query->bindParam(":category_id", $selected_category, PDO::PARAM_INT);
+        $query->bindParam(":selected_category", $selected_category, PDO::PARAM_INT);
         $query->bindParam(":release_year", $release_year, PDO::PARAM_INT);
         $query->execute();
 

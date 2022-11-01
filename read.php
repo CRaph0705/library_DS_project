@@ -50,7 +50,7 @@ if(!empty($_GET['id'])){
                 <p>Catégorie : <?=$bookPage['category_name']  ?></p>
                 <p>Description : <?= $bookPage['book_description'] ?></p>
                 <p>Date de parution : <?= $bookPage['release_year'] ?></p>
-                <p style="margin-top:2%"><a href="index.php" class="btn btn-primary"> Retour </a><a href="update.php?id=<?= $bookPage['id']?>" class="btn btn-warning" style="margin : 0 5% 0 5%"> Modifier </a><a href="delete.php" class="btn btn-danger"> Supprimer </a></p>
+                <p style="margin-top:2%"><a href="index.php" class="btn btn-primary"> Retour </a><a href="update.php?id=<?= $bookPage['id']?>" class="btn btn-warning" style="margin : 0 5% 0 5%"> Modifier </a><a href="delete.php?id=<?= $bookPage['id']?>    " class="btn btn-danger"> Supprimer </a></p>
             </section>
         </div>
     </main>
