@@ -39,7 +39,7 @@ if ($_POST) {
         require_once('close.php');
         header('Location: index.php');
     } else {
-        $_SESSION['erreur'] = "Merci de renseigner à minima le titre, nom et prénom de l'auteur et l'année de parution.";
+        $_SESSION['erreur'] = "Merci de renseigner à minima le titre, l'auteur et l'année de parution.";
     }
 }
 ?>
