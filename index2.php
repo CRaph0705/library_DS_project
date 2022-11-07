@@ -27,12 +27,11 @@ require_once('config.php');
         } else {
             $userName = $_SESSION["user_name"];
         }
-        //header("index.php");
+        //header("index2.php");
         echo 'Bienvenue ' . $userName . ' !' . "<br>";
     }
 
     ?>
-	<a class="btn btn-primary" href="logout.php">Déconnexion</a>
 </header>
 
 <body>
@@ -109,12 +108,12 @@ require_once('config.php');
                                     <?php
                                 }
                                 ?>                                    
-                                <a href="index.php" class="btn btn-primary">Retour</a>
+                                <a href="index2.php" class="btn btn-primary">Retour</a>
                             <?php
                             } else {
                             echo "Oops, on a rien trouvé de similaire. Essaye autre chose.";
                             ?>
-                                <a href="index.php" class="btn btn-primary">Ou revenir à l'index</a>
+                                <a href="index2.php" class="btn btn-primary">Ou revenir à l'index</a>
                                 <?php
                             }
                         } else {
