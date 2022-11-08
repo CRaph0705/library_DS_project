@@ -87,7 +87,7 @@ if ($_POST) {
                         <label for="lastname">Nom de famille</label>
                         <input type="text" name="lastname" id="lastname" class="form-control">
                     </div>
-                    <div style="margin-top:2%"><a href="index.php" class="btn btn-primary">Retour</a><button type="submit" class="btn btn-success" style="margin-left:5%">Ajouter</button></div>
+                    <div style="margin-top:2%"><a href="indexAuthors.php" class="btn btn-primary">Retour</a><button type="submit" class="btn btn-success" style="margin-left:5%">Ajouter</button></div>
                 </form>
             </section>
         </div>
