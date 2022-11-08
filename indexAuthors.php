@@ -58,7 +58,7 @@ require_once('config.php');
 
 
 
-                <h1>Liste des livres</h1>
+                <h1>Liste des auteurs</h1>
                 <table>
                     <form method="post">
                         <label for="">Recherche</label>
