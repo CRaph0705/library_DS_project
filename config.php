@@ -3,7 +3,7 @@
     $pass = "";
     $db = new PDO('mysql:host=localhost;dbname=library_project', $user, $pass);
 
-    $booksQuery = $db->query("SELECT book.id, book.title, book.book_description, book.author_id, book.category_id, book.release_year, category.category_name, author.fullname FROM book INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id");
+    $booksQuery = $db->query("SELECT book.id, book.title, book.book_description, book.author_id, book.category_id, book.release_year, category.category_name, author.fullname FROM book INNER JOIN author ON author.id=book.author_id INNER JOIN category ON category.id=book.category_id ORDER BY id");
     //$authorsQuery = $pdo->query("SELECT * FROM authors");
     $books = $booksQuery->fetchAll(PDO::FETCH_ASSOC);
 

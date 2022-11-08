@@ -78,7 +78,7 @@ require_once('config.php');
 
                         if (!empty($_POST['searchInput'])) {
                             $searchInput = $_POST['searchInput'];
-
+                            $searchInput = strip_tags(htmlspecialchars($searchInput));
                             $searchQuery = $db->prepare('
                                 SELECT book.id, book.title, book.book_description, book.author_id, book.category_id, book.release_year,
                                         category.category_name, author.fullname 
@@ -87,7 +87,9 @@ require_once('config.php');
                                 ON author.id=book.author_id
                                 INNER JOIN category
                                 ON category.id=book.category_id
-                                WHERE book.title LIKE :searchInput');
+                                WHERE book.title LIKE :searchInput OR author.fullname 
+                                LIKE :searchInput OR category_name LIKE :searchInput
+								');
                             $searchQuery->bindValue(':searchInput', '%'.$searchInput.'%', PDO::PARAM_STR);
                             $searchQuery->execute();
 
@@ -136,6 +138,7 @@ require_once('config.php');
                     </tbody>
                 </table>
                 <a href="create.php" class="btn btn-primary">Ajouter un livre</a>
+                <a href="indexAuthors.php" class="btn btn-primary">Liste des auteurs</a>
             </section>
         </div>
     </main>
